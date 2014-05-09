@@ -1,0 +1,24 @@
+{
+  "name": "github-private-atom-feed",
+  "description": "get github private atom feed object (promise or readable stream)",
+  "version": "0.0.1",
+  "author": "nbqx",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nbqx/github-private-atom-feed.git"
+  },
+  "homepage": "https://github.com/nbqx/github-private-atom-feed",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap test/test.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "native-promise-only": "0.0.1-a",
+    "jsdom": "^0.10.5",
+    "lodash.map": "^2.4.1"
+  },
+  "devDependencies": {
+    "tap": "^0.4.8"
+  }
+}
