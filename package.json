@@ -1,7 +1,7 @@
 {
   "name": "github-private-atom-feed",
   "description": "get github private atom feed object (promise or readable stream)",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "nbqx",
   "repository": {
     "type": "git",
@@ -15,8 +15,8 @@
   "license": "MIT",
   "dependencies": {
     "native-promise-only": "0.0.1-a",
-    "jsdom": "^0.10.5",
-    "lodash.map": "^2.4.1"
+    "lodash.map": "^2.4.1",
+    "xpath-stream": "0.0.2"
   },
   "devDependencies": {
     "tap": "^0.4.8"

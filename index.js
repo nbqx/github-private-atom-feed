@@ -1,4 +1,5 @@
-var jsdom = require('jsdom'),
+var request = require('request'),
+    xpath = require('xpath-stream'),
     _map = require('lodash.map'),
     Promise = require('native-promise-only'),
     Readable = require('stream').Readable;
@@ -6,35 +7,26 @@ var jsdom = require('jsdom'),
 module.exports = main;
 
 function feedData(feedUrl,next){
-  jsdom.env(feedUrl,["http://code.jquery.com/jquery.js"],next);
-};
-
-function mkEntry(root){
-  var $ = root.$;
-  return function(o){
-    var ret = {};
-    ret.id = $(o).find("id").text();
-    ret.published = $(o).find("published").text();
-    ret.updated = $(o).find("updated").text();
-    ret.link = $(o).find("link").attr("href");
-    ret.title = $(o).find("title").text();
-    ret.author = {
-      name: $(o).find("author name").text(),
-      email: $(o).find("author email").text(),
-      uri: $(o).find("author uri").text()
-    };
-    ret.content = $(o).find("content").text();
-    return ret;
-  }
+  request(feedUrl).pipe(xpath("//entry",{
+    id: "id/text()",
+    published: "published/text()",
+    updated: "updated/text()",
+    link: "link/@href",
+    title: "title/text()",
+    author: {
+      name: "author/name/text()",
+      email: "author/email/text()",
+      uri: "author/uri/text()"
+    },
+    content: "content/text()"
+  })).on('data',next);
 };
 
 function main(feedUrl){
   return new Promise(function(resolve,reject){
-    feedData(feedUrl,function(err,root){
-      if(err) return reject(err);
+    feedData(feedUrl,function(data){
       try{
-        var entries = _map(root.$("entry"),mkEntry(root));
-        resolve(entries);
+        resolve(data);
       }catch(x_x){
         reject(x_x);
       }
